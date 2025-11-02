@@ -1,3 +1,4 @@
 langchain
 dotenv
 streamlit
+langchain_community
