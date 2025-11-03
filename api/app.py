@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
+from langchain_ollama import OllamaLLM
 from langserve import add_routes
 import uvicorn
 import os
@@ -21,8 +21,7 @@ app = FastAPI(
 model = ChatGoogleGenerativeAI(model="gemini-2.5-flash",
                               google_api_key=os.getenv("GEMINI_API_KEY"))
 
-llm = Ollama(model="gemma")
-output_parser = StrOutputParser()
+llm = OllamaLLM(model="llama2")
 
 prompt1 = ChatPromptTemplate.from_template(
     "Write me an essay about {topic} with 100 words"
@@ -40,7 +39,7 @@ add_routes(
 
 add_routes(
     app,
-    prompt2 | llm | output_parser,
+    prompt2 | llm,
     path="/poem"
 )
 

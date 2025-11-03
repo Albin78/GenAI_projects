@@ -3,14 +3,14 @@ import streamlit as st
 
 
 def get_gemini_response(input_text: str):
-    response = requests.post(url="http://localhost:8000/essay/playground/",
+    response = requests.post(url="http://localhost:8000/essay/invoke",
     json={'input': {'topic': input_text}})
 
     return response.json()['output']['content']
 
 
 def get_ollama_response(input_text:str):
-    response = requests.post(url='http://localhost:8000/essay/playground/',
+    response = requests.post(url="http://localhost:8000/poem/invoke",
     json={'input': {'topic': input_text}})
 
     return response.json()['output']
