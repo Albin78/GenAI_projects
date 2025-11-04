@@ -13,3 +13,6 @@ sse_starlette
 langchain-ollama
 bs4
 pypdf
+faiss-cpu
+sentence-transformers
+chromadb
