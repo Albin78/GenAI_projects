@@ -12,3 +12,4 @@ langchain-google-genai
 sse_starlette
 langchain-ollama
 bs4
+pypdf
