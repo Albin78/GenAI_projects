@@ -17,3 +17,5 @@ myenv/
 
 # pdf
 *.pdf
+
+.ipynb_checkpoints/
