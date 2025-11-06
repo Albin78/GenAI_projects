@@ -18,3 +18,4 @@ sentence-transformers
 chromadb
 arxiv
 wikipedia
+langchain_groq
