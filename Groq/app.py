@@ -5,10 +5,11 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_classic.chains import create_stuff_documents_chain
+from langchain.chains import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_classic.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
 from dotenv import load_dotenv
+import time
 
 load_dotenv()
 
@@ -22,7 +23,7 @@ if "vector" not in st.session_state:
         chunk_size=1000, chunk_overlap=200
         )
     st.session_state.splitted_docs = st.session_state.text_splitter.split_documents(
-        st.session_state.docs, st.session_state.embeddings
+        st.session_state.docs
     )
     st.session_state.vector_store = FAISS.from_documents(
         documents=st.session_state.splitted_docs, 
@@ -50,5 +51,13 @@ prompt = ChatPromptTemplate.from_template(
 document_chain = create_stuff_documents_chain(llm, prompt)
 retriever = st.session_state.vector_store.as_retriever()
 
+retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
+input_text = st.text_input("Enter your prompt here")
 
+if input_text:
+    start_time = time.process_time()
+    response = retrieval_chain.invoke({"input": input_text})
+    print("Response time:", time.process_time() - start_time)
+
+    st.write(response['answer'])
