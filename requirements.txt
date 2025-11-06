@@ -12,6 +12,7 @@ langchain-google-genai
 sse_starlette
 langchain-ollama
 bs4
+groq
 pypdf
 faiss-cpu
 sentence-transformers
@@ -19,3 +20,4 @@ chromadb
 arxiv
 wikipedia
 langchain_groq
+langchain-huggingface

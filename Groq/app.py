@@ -5,9 +5,9 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain.chains import create_stuff_documents_chain
+from langchain_classic.chains.combine_documents.stuff import create_stuff_documents_chain
+from langchain_classic.chains import create_retrieval_chain
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains.combine_documents import create_stuff_documents_chain
 from dotenv import load_dotenv
 import time
 
@@ -16,14 +16,14 @@ load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")
 
 if "vector" not in st.session_state:
-    st.session_state.embeddings = OllamaEmbeddings()
+    st.session_state.embeddings = OllamaEmbeddings(model="gemma:2b")
     st.session_state.loader = WebBaseLoader(web_path="https://docs.langchain.com/oss/python/langchain/overview")
     st.session_state.docs = st.session_state.loader.load()
     st.session_state.text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=200
         )
     st.session_state.splitted_docs = st.session_state.text_splitter.split_documents(
-        st.session_state.docs
+        st.session_state.docs[:50]
     )
     st.session_state.vector_store = FAISS.from_documents(
         documents=st.session_state.splitted_docs, 
