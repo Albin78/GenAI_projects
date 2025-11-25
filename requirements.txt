@@ -21,3 +21,4 @@ arxiv
 wikipedia
 langchain_groq
 langchain-huggingface
+ragstack-ai
